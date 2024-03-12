@@ -243,6 +243,7 @@ function RegistrationScreen({ navigation }) {
    zipCode,
    newsletter,
  };
+
  users.push(newUser);
 
  try {
@@ -306,13 +307,12 @@ function RegistrationScreen({ navigation }) {
           onChangeText={handleZipCodeChange}
           value={zipCode}
           placeholder="ZIP Code"
-          test ID="zip"
+          testID="zip"
         />
         <CheckBox
-          title="Sign up for newsletter"
+          title="Sign up for our newsletter"
           checked={newsletter}
-          onPress={handleNewsletterChange}
-          testID="newsletter"
+          onPress={() => handleNewsletterChange(!newsletter)}          testID="newsletter"
         />
         <Button
           title="Register"
