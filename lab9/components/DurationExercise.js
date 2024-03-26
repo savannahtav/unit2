@@ -12,11 +12,13 @@ const DurationExercise = ({ navigation, route }) => {
   };
 
   const suggestedActivity = route.params && route.params.suggested ? route.params.suggested : "Unknown";
+  const activity = route.params && route.params.activity ? route.params.activity : "Unknown";
+  const isSuggestedActivity = suggestedActivity === activity;
 
 
   return (
     <View style={styles.container}>
-    <Text style={styles.title}>{route.params && route.params.activity ? route.params.activity : "Unknown"}</Text>
+    <Text style={styles.title}>{activity}</Text>
     <Stopwatch isRunning={isRunning} />
       <View style={styles.buttonContainer}>
         <Button
@@ -27,12 +29,12 @@ const DurationExercise = ({ navigation, route }) => {
           title="Home"
           onPress={() => navigation.navigate('Home')}
         />
-        {suggestedActivity !== route.params.activity && ( // Only show the suggested button if it's not the current activity
-          <Button
-          title={`Suggested: ${suggestedActivity}`}
-          onPress={() => navigation.navigate(suggestedActivity, { activity: suggestedActivity })}
-          />
-         )}
+                {!isSuggestedActivity && suggestedActivity !== "Unknown" && (
+                    <Button
+                        title={`Suggested: ${suggestedActivity}`}
+                        onPress={() => navigation.navigate(suggestedActivity, { activity: suggestedActivity })}
+                    />
+                )}
       </View>
     </View>
   );

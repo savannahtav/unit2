@@ -12,25 +12,24 @@ const RepetitionExercise = ({ navigation, route }) => {
     setCount(0);
   };
 
+  const activity = route.params && route.params.activity ? route.params.activity : "Unknown";
   const suggestedActivity = route.params && route.params.suggested ? route.params.suggested : "Unknown";
-  const activity = route.params && route.params.activity ? route.params.activity : "Unknown"; // Ensure activity is defined
   const isSuggestedActivity = suggestedActivity === activity;
-
 
   return (
     <View style={styles.container}>
-    <Text style={styles.title}>{route.params && route.params.activity ? route.params.activity : "Unknown"}</Text>
+        <Text style={styles.title}>{activity}</Text>
         <View style={styles.counterContainer}>
         <Text style={styles.counterText}>{count}</Text>
         <View style={styles.buttonContainer}>
           <Button title="Increment" onPress={incrementCount} />
           <Button title="Reset" onPress={resetCount} />
-          {suggestedActivity !== route.params.activity && ( // Only show the suggested button if it's not the current activity
-          <Button
-          title={`Suggested: ${suggestedActivity}`}
-          onPress={() => navigation.navigate(suggestedActivity, { activity: suggestedActivity })}
-          />
-         )}
+          {!isSuggestedActivity && suggestedActivity !== "Unknown" && (
+                        <Button
+                            title={`Suggested: ${suggestedActivity}`}
+                            onPress={() => navigation.navigate(suggestedActivity, { activity: suggestedActivity })}
+                        />
+                    )}
         </View>
         <Button title="Home" onPress={() => navigation.navigate('Home')} />
       </View>
