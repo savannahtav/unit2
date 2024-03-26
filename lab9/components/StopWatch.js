@@ -9,17 +9,17 @@ const Stopwatch = ({ isRunning }) => {
     let interval;
     if (isRunning) {
       interval = setInterval(() => {
-        setTimer((prevTimer) => prevTimer + 10); // Update timer every 10 milliseconds
+        setTimer((prevTimer) => prevTimer + 10);
       }, 10);
     } else {
       clearInterval(interval);
       if (resetOnStop) {
-        setTimer(0); // Reset timer to zero when stopped
-        setResetOnStop(false); // Reset the flag
+        setTimer(0);
+        setResetOnStop(false);
       }
     }
 
-    return () => clearInterval(interval); // Cleanup interval on unmount or when isRunning changes
+    return () => clearInterval(interval);
   }, [isRunning, resetOnStop]);
 
   const formatTime = (time) => {
@@ -31,9 +31,9 @@ const Stopwatch = ({ isRunning }) => {
 
   const handleReset = () => {
     if (!isRunning) {
-      setTimer(0); // Reset timer to zero
+      setTimer(0);
     } else {
-      setResetOnStop(true); // Set flag to reset timer on stop
+      setResetOnStop(true);
     }
   };
 

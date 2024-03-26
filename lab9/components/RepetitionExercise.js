@@ -25,13 +25,13 @@ const RepetitionExercise = ({ navigation, route }) => {
           <Button title="Increment" onPress={incrementCount} />
           <Button title="Reset" onPress={resetCount} />
           {!isSuggestedActivity && suggestedActivity !== "Unknown" && (
-                        <Button
-                            title={`Suggested: ${suggestedActivity}`}
-                            onPress={() => navigation.navigate(suggestedActivity, { activity: suggestedActivity })}
-                        />
-                    )}
+            <Button
+            title={`Suggested: ${suggestedActivity}`}
+            onPress={() => navigation.navigate(suggestedActivity, { activity: suggestedActivity })}
+            />
+            )}
         </View>
-        <Button title="Home" onPress={() => navigation.navigate('Home')} />
+        <Button title="Home" onPress={() => navigation.navigate('Home')}/>
       </View>
     </View>
   );
