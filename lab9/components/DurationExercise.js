@@ -7,16 +7,16 @@ const DurationExercise = ({ navigation, route }) => {
   const [timer, setTimer] = useState(0);
 
   const handleReset = () => {
-    console.log('Reset button clicked');
     setIsRunning(false);
     setTimer(0);
-    console.log('Timer reset to zero');
   };
+
+  const suggestedActivity = route.params && route.params.suggested ? route.params.suggested : "Unknown";
 
 
   return (
     <View style={styles.container}>
-    <Text style={styles.title}>{route.params.activity}</Text>
+    <Text style={styles.title}>{route.params && route.params.activity ? route.params.activity : "Unknown"}</Text>
     <Stopwatch isRunning={isRunning} />
       <View style={styles.buttonContainer}>
         <Button
@@ -27,6 +27,12 @@ const DurationExercise = ({ navigation, route }) => {
           title="Home"
           onPress={() => navigation.navigate('Home')}
         />
+        {suggestedActivity !== route.params.activity && ( // Only show the suggested button if it's not the current activity
+          <Button
+          title={`Suggested: ${suggestedActivity}`}
+          onPress={() => navigation.navigate(suggestedActivity, { activity: suggestedActivity })}
+          />
+         )}
       </View>
     </View>
   );
