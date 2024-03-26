@@ -1,78 +1,58 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-export default function StopWatch() {
-  const [timer, setTimer] = useState(false);
-  const [hour, setHour] = useState(0);
-  const [minute, setMinute] = useState(0);
-  const [second, setSecond] = useState(0);
-  const [count, setCount] = useState(0);
+const Stopwatch = ({ isRunning }) => {
+  const [timer, setTimer] = useState(0);
+  const [resetOnStop, setResetOnStop] = useState(false);
 
-  const intervalRef = useRef();
-
-  const startTimer = () => {
-    if (!timer) {
-      setTimer(true);
-      intervalRef.current = setInterval(() => {
-        setCount(prevCount => prevCount + 1);
+  useEffect(() => {
+    let interval;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 10); // Update timer every 10 milliseconds
       }, 10);
+    } else {
+      clearInterval(interval);
+      if (resetOnStop) {
+        setTimer(0); // Reset timer to zero when stopped
+        setResetOnStop(false); // Reset the flag
+      }
+    }
+
+    return () => clearInterval(interval); // Cleanup interval on unmount or when isRunning changes
+  }, [isRunning, resetOnStop]);
+
+  const formatTime = (time) => {
+    const milliseconds = Math.floor(time % 1000).toString().padStart(3, '0');
+    const seconds = Math.floor((time / 1000) % 60).toString().padStart(2, '0');
+    const minutes = Math.floor((time / (1000 * 60)) % 60).toString().padStart(2, '0');
+    return `${minutes}:${seconds}:${milliseconds}`;
+  };
+
+  const handleReset = () => {
+    if (!isRunning) {
+      setTimer(0); // Reset timer to zero
+    } else {
+      setResetOnStop(true); // Set flag to reset timer on stop
     }
   };
-
-  const stopTimer = () => {
-    if (timer) {
-      setTimer(false);
-      clearInterval(intervalRef.current);
-    }
-  };
-
-  const resetTimer = () => {
-    stopTimer();
-    setHour(0);
-    setMinute(0);
-    setSecond(0);
-    setCount(0);
-  };
-
-  React.useEffect(() => {
-    let seconds = Math.floor(count / 100) % 60;
-    let minutes = Math.floor(count / (100 * 60)) % 60;
-    let hours = Math.floor(count / (100 * 60 * 60));
-
-    setHour(hours);
-    setMinute(minutes);
-    setSecond(seconds);
-  }, [count]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.timer}>
-        <Text style={styles.time}>{`${hour < 10 ? `0${hour}` : hour}:${minute < 10 ? `0${minute}` : minute}:${second < 10 ? `0${second}` : second}:${count % 100 < 10 ? `0${count % 100}` : count % 100}`}</Text>
-      </View>
-      <View style={styles.buttons}>
-        <Button title="Start" onPress={startTimer} />
-        <Button title="Stop" onPress={stopTimer} />
-        <Button title="Reset" onPress={resetTimer} />
-      </View>
+      <Text style={styles.timer}>{formatTime(timer)}</Text>
+      <Button title="Reset" onPress={handleReset} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
   },
   timer: {
-    marginBottom: 20,
-  },
-  time: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    fontSize: 48,
   },
 });
+
+export default Stopwatch;

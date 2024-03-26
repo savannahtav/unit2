@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import StopWatch from './StopWatch';
+import Stopwatch from './StopWatch'; // Import the Stopwatch component
 
-const DurationExercise = ({ exercise, setMenuScreen }) => {
-  const { name } = exercise;
+const DurationExercise = ({ navigation }) => {
+  const [isRunning, setIsRunning] = useState(false);
+  const [timer, setTimer] = useState(0);
+
+  const handleReset = () => {
+    console.log('Reset button clicked');
+    setIsRunning(false);
+    setTimer(0);
+    console.log('Timer reset to zero');
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{name}</Text>
-      <StopWatch />
-      <Button title="Back to Menu" onPress={() => setMenuScreen(true)} />
+      <Stopwatch isRunning={isRunning} />
+      <View style={styles.buttonContainer}>
+        <Button
+          title={isRunning ? 'Stop' : 'Start'}
+          onPress={() => setIsRunning(!isRunning)}
+        />
+        <Button
+          title="Home"
+          onPress={() => navigation.navigate('Home')}
+        />
+      </View>
     </View>
   );
 };
@@ -20,9 +36,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: {
-    fontSize: 20,
+  title: {
+    fontSize: 24,
     marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: 20,
+    width: '100%',
   },
 });
 

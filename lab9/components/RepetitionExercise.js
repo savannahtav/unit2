@@ -1,34 +1,53 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-export default function RepetitionExercise({ exercise, setMenuScreen }) {
+const RepetitionExercise = () => {
   const [count, setCount] = useState(0);
+
+  const incrementCount = () => {
+    setCount(count + 1);
+  };
+
+  const resetCount = () => {
+    setCount(0);
+  };
+
+  const goToHomeScreen = () => {
+    navigation.navigate('Home');
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>{exercise.name}</Text>
-      <Text style={styles.count}>{count}</Text>
-      <Button title="Increment" onPress={() => setCount(count + 1)} />
-      <Button title="Reset" onPress={() => setCount(0)} />
-      <Button title="Back to Menu" onPress={setMenuScreen} />
+      <View style={styles.counterContainer}>
+        <Text style={styles.counterText}>{count}</Text>
+        <View style={styles.buttonContainer}>
+          <Button title="Increment" onPress={incrementCount} />
+          <Button title="Reset" onPress={resetCount} />
+        </View>
+        <Button title="Home" onPress={goToHomeScreen} />
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
   },
-  heading: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  counterContainer: {
+    alignItems: 'center',
+  },
+  counterText: {
+    fontSize: 48,
     marginBottom: 20,
   },
-  count: {
-    fontSize: 50,
-    marginBottom: 20,
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: '60%',
   },
 });
+
+export default RepetitionExercise;
