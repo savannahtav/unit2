@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import Stopwatch from './StopWatch'; // Import the Stopwatch component
 
-const DurationExercise = ({ navigation }) => {
+const DurationExercise = ({ navigation, route }) => {
   const [isRunning, setIsRunning] = useState(false);
   const [timer, setTimer] = useState(0);
 
@@ -13,9 +13,11 @@ const DurationExercise = ({ navigation }) => {
     console.log('Timer reset to zero');
   };
 
+
   return (
     <View style={styles.container}>
-      <Stopwatch isRunning={isRunning} />
+    <Text style={styles.title}>{route.params.activity}</Text>
+    <Stopwatch isRunning={isRunning} />
       <View style={styles.buttonContainer}>
         <Button
           title={isRunning ? 'Stop' : 'Start'}

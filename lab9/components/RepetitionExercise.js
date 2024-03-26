@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-const RepetitionExercise = () => {
-  const [count, setCount] = useState(0);
+const RepetitionExercise = ({ navigation, route }) => {
+    const [count, setCount] = useState(0);
 
   const incrementCount = () => {
     setCount(count + 1);
@@ -18,7 +18,8 @@ const RepetitionExercise = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.counterContainer}>
+        <Text style={styles.title}>{route.params.activity}</Text>
+        <View style={styles.counterContainer}>
         <Text style={styles.counterText}>{count}</Text>
         <View style={styles.buttonContainer}>
           <Button title="Increment" onPress={incrementCount} />
@@ -35,6 +36,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
   },
   counterContainer: {
     alignItems: 'center',

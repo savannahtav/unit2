@@ -3,17 +3,17 @@ import { View, FlatList, Button, StyleSheet } from 'react-native';
 
 const Home = ({ navigation }) => {
   const exercises = [
-    { title: 'Push Ups', screen: 'Push Ups' },
-    { title: 'Running', screen: 'Running' },
-    { title: 'Planks', screen: 'Planks' },
-    { title: 'Swimming', screen: 'Swimming' }
+    { title: 'Push Ups', screen: 'Push Ups', activity: 'Push Ups' },
+    { title: 'Running', screen: 'Running', activity: 'Running' },
+    { title: 'Planks', screen: 'Planks', activity: 'Planks' },
+    { title: 'Swimming', screen: 'Swimming', activity: 'Swimming' }
   ];
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Button
         title={item.title}
-        onPress={() => navigation.navigate(item.screen)}
+        onPress={() => navigation.navigate(item.screen, { activity: item.activity })}
       />
     </View>
   );
