@@ -112,7 +112,7 @@ function Question({ navigation, route }) {
         userCorrect = userSelected === correct;
       } else if (type === 'multiple-answer') {
         if (!Array.isArray(userSelected)) {
-          userSelected = [userSelected]; // Convert to array if not already
+          userSelected = [userSelected];
         }
         userCorrect = correct.every((item) => userSelected.includes(item)) &&
                       userSelected.every((item) => correct.includes(item));
